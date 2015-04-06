@@ -1,6 +1,6 @@
 
 module SynapseClient
-  class RefreshedTokens
+  class RefreshedTokens < APIResource
 
     attr_reader :old_access_token
     attr_reader :old_refresh_token
@@ -36,4 +36,3 @@ module SynapseClient
 
   end
 end
-
