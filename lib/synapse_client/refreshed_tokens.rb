@@ -4,8 +4,8 @@ module SynapseClient
 
     attr_reader :old_access_token
     attr_reader :old_refresh_token
-    attr_reader :new_access_token
-    attr_reader :new_refresh_token
+    attr_accessor :new_access_token
+    attr_accessor :new_refresh_token
 
     def initialize(options = {})
       options = Map.new(options)
@@ -15,23 +15,18 @@ module SynapseClient
     end
 
     def refresh_old_tokens
+      client_id = SynapseClient.client_id
+      client_secret =  SynapseClient.client_secret
       data = {
         :grant_type => "refresh_token",
         :refresh_token => @old_refresh_token
-      }
+      }.merge(SynapseClient.creds(client_id,client_secret ))
 
-      request = SynapseClient::Request.new("/oauth2/access_token", data)
-      response = request.post
+      request = JSON.parse(RestClient.post SynapseClient.api_url("/oauth2/access_token"), data, :content_type => :json, :accept => :json)
+      self.new_access_token  = request["access_token"]
+      self.new_refresh_token = request["refresh_token"]
 
-      unless response.instance_of?(SynapseClient::Error)
-        self.new_access_token  = response["access_token"]
-        self.new_refresh_token = response["refresh_token"]
-
-        return self
-      else
-        return response
-      end
-
+      return self
     end
 
   end
