@@ -74,6 +74,10 @@ module SynapseClient
       }))
     end
 
+    def cards
+      Card.all({:access_token => @access_token})
+    end
+
     def link_bank_account(params={})
       BankAccount.link(params.merge({
         :access_token => @access_token
