@@ -6,6 +6,7 @@ require "synapse_client/api_resource"
 require "synapse_client/api_operations/response"
 require "synapse_client/api_operations/list"
 require "synapse_client/bank_account"
+require "synapse_client/card"
 require "synapse_client/error"
 require "synapse_client/merchant"
 require "synapse_client/mfa"
@@ -96,7 +97,7 @@ module SynapseClient
       #begin
         response = execute_request(request_opts)
       # TODO: https://github.com/stripe/stripe-ruby/blob/master/lib/stripe.rb#L127
-      #rescue 
+      #rescue
       #end
 
       parse(response)
@@ -137,4 +138,3 @@ module SynapseClient
   end
 
 end
-
