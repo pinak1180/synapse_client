@@ -78,6 +78,13 @@ module SynapseClient
       Card.all({:access_token => @access_token})
     end
 
+    def mass_pay_via_card(params={})
+      MassPay.via_card(params.merge({
+        :access_token => @access_token,
+        :fullname     => @fullname
+      }))
+    end
+
     def link_bank_account(params={})
       BankAccount.link(params.merge({
         :access_token => @access_token
