@@ -4,7 +4,7 @@ module SynapseClient
     include SynapseClient::APIOperations::List
 
     attr_accessor :name_on_account, :nickname
-    attr_accessor :date, :bank_name, :resource_uri
+    attr_accessor :date, :bank_name, :resource_uri,:bank_id
     attr_accessor :account_class, :account_type
     attr_accessor :routing_number_string, :account_number_string
     attr_accessor :is_active, :is_buyer_default, :is_seller_default, :is_verified
@@ -26,6 +26,7 @@ module SynapseClient
       @nickname              = options[:nickname]
       @resource_uri          = options[:resource_uri]
       @routing_number_string = options[:routing_number_string]
+      @bank_id = options[:bank_id]
     end
 
     def self.api_resource_name
@@ -41,6 +42,11 @@ module SynapseClient
       response = SynapseClient.request(:post, url + "add", params)
       return response unless response.successful?
       BankAccount.new(response.data.bank)
+    end
+
+    def self.delete(params={})
+      response = SynapseClient.request(:post, url + "delete", params)
+      return response unless response.successful?
     end
 
     def self.link(params={})

@@ -67,6 +67,13 @@ module SynapseClient
       }))
     end
 
+    def delete_bank_account(params={})
+      BankAccount.delete(params.merge({
+        :access_token => @access_token,
+        :fullname     => @fullname
+      }))
+    end
+
     def add_card(params={})
       Card.add(params.merge({
         :access_token => @access_token,
@@ -77,6 +84,7 @@ module SynapseClient
     def cards
       Card.all({:access_token => @access_token})
     end
+
 
     def mass_pay_via_card(params={})
       MassPay.via_card(params.merge({
